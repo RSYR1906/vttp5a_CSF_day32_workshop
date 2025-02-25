@@ -1,0 +1,56 @@
+<form [formGroup]="form" (ngSubmit)="processForm()">
+  <h1>Todo</h1>
+  <table>
+    <tr>
+      <td>Description:</td>
+      <td>
+        <input type="text" formControlName="description">
+        <div class="error" *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
+          <small *ngIf="form.get('description')?.errors?.['required']">Description is required.</small>
+          <small *ngIf="form.get('description')?.errors?.['minlength']">Must be at least 5 characters long.</small>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Priority:</td>
+      <td>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" formControlName="priority" id="inlineRadio1" value="High">
+          <label class="form-check-label" for="inlineRadio1">High</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" formControlName="priority" id="inlineRadio2" value="Medium">
+          <label class="form-check-label" for="inlineRadio2">Medium</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" formControlName="priority" id="inlineRadio3" value="Low">
+          <label class="form-check-label" for="inlineRadio3">Low</label>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Due:</td>
+      <td>
+        <input type="date" formControlName="due">
+        <div class="error" *ngIf="form.get('due')?.invalid && form.get('due')?.touched">
+          <small *ngIf="form.get('due')?.errors?.['required']">Due date is required.</small>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <button type="submit" [disabled]="form.invalid">Add</button>
+</form>
+
+<!-- Display the added todos -->
+<div class="tasks">
+  <h1>Tasks</h1>
+  <ul>
+    <li *ngFor="let todo of todos; let i = index">
+      <strong>{{ todo.description }}</strong> - {{ todo.priority }} - Due: {{ todo.due }}
+      <button type="button" (click)="removeTodo(i)">Done!</button>
+    </li>
+  </ul>
+</div>
